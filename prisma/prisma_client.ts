@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client')
 declare global {
   // allow global `var` declarations
   // eslint-disable-next-line no-var
-  var prisma
+  var prisma: any
 }
 
 export const prisma =
