@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String             @id @default(auto()) @map("_id") @db.ObjectId
+  username     String?            @unique
+  email        String             @unique
+  password     String
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  images       Images?
+  profile      Profile?
+  contact      Contact?
+  companies    Company?
+  gamification GamificationRules?
+  permissions  Permissions        @default(USER)
+  state        userState          @default(INCOMPLETE)
+  verified     Boolean            @default(false)
+  privacy      String[]
+
+  @@map("users")
+}
+
+type Profile {
+  main_name     String
+  name          String
+  surname       String
+  bio           String?
+  area          String[]
+  intereststags String[] @map("interests_tags")
+  job           String[]
+}
+
+type Images {
+  avatar String?
+  cover  String?
+}
+
+type Contact {
+  whatsapp String
+  phone    String?
+}
+
+type Company {
+  owned String[]
+}
+
+type GamificationRules {
+  points          Int
+  badges          String[]
+  trialexpiration DateTime @map("trial_expiration")
+}
+
+enum Permissions {
+  SUPERADMIN
+  ADMIN
+  EDITOR
+  STAFF
+  USER
+}
+
+enum userState {
+  INCOMPLETE
+  ACTIVE
+  INACTIVE
+  BLOCKED
+}
