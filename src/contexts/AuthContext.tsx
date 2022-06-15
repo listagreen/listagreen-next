@@ -50,17 +50,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
         password,
       });
 
-      const { token, permissions, profile } = response.data;
+      const { token, refresh_token, permissions, profile } = response.data;
 
       setCookie(undefined, "listagreen.token", token, {
         maxAge: 60 * 60 * 24 * 7, // 1 week
         path: "/",
       });
 
-      // setCookie(undefined, "listagreen.refreshToken", refreshToken, {
-      //   maxAge: 60 * 60 * 24 * 7, // 1 week
-      //   path: "/",
-      // });
+      setCookie(undefined, "listagreen.refreshToken", refresh_token, {
+        maxAge: 60 * 60 * 24 * 7, // 1 week
+        path: "/",
+      });
 
       setUser({
         email,
