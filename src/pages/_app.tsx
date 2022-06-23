@@ -1,15 +1,16 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
-import { AuthProvider } from "../contexts/AuthContext";
 import { theme } from "../styles/theme";
+import React from 'react';
+import { UserProvider } from '@auth0/nextjs-auth0';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
+    <UserProvider>
       <ChakraProvider theme={theme}>
         <Component {...pageProps} />
       </ChakraProvider>
-    </AuthProvider>
+    </UserProvider>
   );
 }
 

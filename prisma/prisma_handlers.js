@@ -1,10 +1,10 @@
 import { prisma } from './prisma_client.ts';
 
-export const createUser = async email => {
+export const createUser = async (user) => {
+  const userdata = user;
     const creation = await prisma.user.create({
       data: {
         email: email,
-        password: '123456',
         privacy: ['public']
       },
     });
