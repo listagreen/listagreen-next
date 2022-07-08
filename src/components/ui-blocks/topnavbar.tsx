@@ -87,7 +87,7 @@ export default function TopNav() {
                 variant={"link"}
                 href={"/api/auth/login"}
               >
-                Comece agora
+                Comece agora  
                 <Icon
                 color={"listagreen.darkgreen"}
                 w={3}
@@ -144,8 +144,16 @@ const DesktopNav = () => {
                     textDecoration: "none",
                     color: linkHoverColor,
                   }}
-                >
-                  {navItem.label}
+                  >
+                    {navItem.label}
+                    {navItem.children && (
+                        <Icon
+                        as={ChevronDownIcon}
+                        w={4}
+                        h={4}
+                        />
+                    )}
+                    
                 </ChackraLink>
               </PopoverTrigger>
   

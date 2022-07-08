@@ -2,53 +2,56 @@ import {
   Box,
   Flex,
   Text,
-  IconButton,
   Button,
   Stack,
-  Collapse,
   Icon,
   Link as ChackraLink,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  useColorModeValue,
-  useBreakpointValue,
-  useDisclosure,
   Img,
   Center,
   Heading,
+  Input,
+  CircularProgress,
+  Divider,
 } from "@chakra-ui/react";
 import { Fade } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
 import Link from "next/link";
 import TopNav from "../components/ui-blocks/topnavbar";
+import SearchBar from "../components/ui-blocks/searchbar";
 
 export default function Initial() {
   const SliderProperties = {
-    duration: 5000,
+    duration: 4500,
     autoplay: true,
     indicators: false,
     infinite: true,
     arrows: false,
-    defaultIndex: 2,
+    defaultIndex: 1,
     pauseOnHover: false,
   };
   const sliderImages = [
-    "assets/ui/slider1.webp",
     "assets/ui/slider2.webp",
     "assets/ui/slider3.webp",
+    "assets/ui/slider4.webp",
+    "assets/ui/slider5.webp",
   ];
   const slideStyle = {
-    width: "100vw",
-    backgroundSize: "cover",
-    height: "35rem",
+    width: "100vw", backgroundSize: "cover", height: "35rem",
   };
 
   return (
-    <>
-      <TopNav />
+    <Flex
+    direction="column"
+    justify="space-between"
+    >
 
-      <Box className="header-container">
+      <TopNav />
+      <Box className="header-container"
+      overflow={"hidden"}
+      maxHeight={"35rem"}
+      mb="1rem"
+      flex="1"
+      >
 
       <Center className="title-container"
       zIndex={70}
@@ -64,7 +67,7 @@ export default function Initial() {
           fontWeight={600}
           fontSize={{ base: '1xl', sm: '1xl', md: '2xl' }}
           lineHeight={'110%'}
-          color={'white'}
+          color={'#555555d1'}
           >
             SEU NOVO HUB DE
           </Heading>
@@ -80,7 +83,7 @@ export default function Initial() {
           fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
           lineHeight={'110%'}
           color={'white'}
-          backgroundColor={'listagreen.basegreen'}
+          backgroundColor={'listagreen.darkgreen'}
           borderRadius="1rem 1rem 0 0"
           p={'0.7rem'}
           >
@@ -91,7 +94,7 @@ export default function Initial() {
           fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
           lineHeight={'110%'}
           color={'white'}
-          backgroundColor={'listagreen.basegreen'}
+          backgroundColor={'listagreen.darkgreen'}
           borderRadius="1rem"
           p={'0.7rem'}
           >
@@ -103,36 +106,60 @@ export default function Initial() {
       </Center>
 
       <Fade className="slider"
+      backgroundColor={'listagreen.darkgreen'}
       {...SliderProperties}>
-        <div className="each-fade">
-          <div style={slideStyle}>
-            <img width={"100%"} src={sliderImages[0]} />
+        
+        {sliderImages.map((image, index) => (
+          <div className="each-fade">
+          <div style={{...slideStyle, backgroundImage: `url(${sliderImages[index]})`}} />
           </div>
-        </div>
-        <div className="each-fade">
-          <div style={slideStyle}>
-            <img width={"100%"} src={sliderImages[1]} />
-          </div>
-        </div>
-        <div className="each-fade">
-          <div style={slideStyle}>
-            <img width={"100%"} src={sliderImages[2]} />
-          </div>
-        </div>
+        ))}
+        
       </Fade>
 
       <Center className="searchbar-container"
       backgroundColor={'#00000070'}
-      h={'40'}
+      h={'9rem'}
       p={'1rem'}
       position={'relative'}
-      top={'-40'}
+      top={'-9rem'}
       zIndex={'70'}
       >
-        <Text>Temporary</Text>
+        <SearchBar />
+
       </Center>
 
       </Box>
-    </>
+
+      <Box className="content-container" m={"1rem 0rem"} flex={1} >
+        <Center>
+        <CircularProgress isIndeterminate color='listagreen.basegreen' />
+        </Center>
+      </Box>
+
+      <Box className="footer-container" mt={"3.5rem"} flex={1}>
+        <Divider />
+        <Flex
+        mt={'-1.5rem'}
+        mb={'1.5rem'}
+        w="full"
+        h={'5rem'}
+        align="center"
+        justify="center"
+        px="6"
+        py="4"
+        >
+          <Stack direction={"column"}>
+            <Center>
+            <Img src="/assets/ui/logo-icon-basegreen.svg" alt="logo" w={"3.1rem"} zIndex="14" />
+            </Center>
+            <Stack direction={"row"}>
+              <Text fontSize={"sm"} fontWeight="bold" color="gray.500">Listagreen ® 2022</Text><Text fontSize={"sm"} > - Todos os direitos reservados.</Text>
+            </Stack>
+          </Stack>
+        </Flex>
+      </Box>
+
+    </Flex>
   );
 }
