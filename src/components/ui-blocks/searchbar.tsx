@@ -77,7 +77,7 @@ export default function SearchBar() {
       placeholder="Escolha um Estado"
       >
         {UF.map((uf) => (
-            <option value={uf.sigla}>{uf.nome}</option>
+            <option value={uf.sigla} key={uf.sigla}>{uf.nome}</option>
         ))}
       </Select>
       <Button

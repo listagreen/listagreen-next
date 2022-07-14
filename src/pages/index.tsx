@@ -118,7 +118,7 @@ export default function Initial() {
       </Fade>
 
       <Center className="searchbar-container"
-      backgroundColor={'#00000070'}
+      backgroundColor='#00000070'
       h={'9rem'}
       p={'1rem'}
       position={'relative'}
