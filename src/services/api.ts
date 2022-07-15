@@ -11,7 +11,7 @@ let isRefreshing = false;
 let failedRequestQueue = [];
 
 export const api = axios.create({
-  baseURL: "http://localhost:3333",
+  baseURL: "http://localhost:3000",
   headers: {
     Authorization: `Bearer ${cookies["listagreen.token"]}`,
   },
