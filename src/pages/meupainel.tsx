@@ -29,14 +29,19 @@ export default function Dashboard() {
   const { user, error, isLoading } = useUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [ userData, setUserData] = useState()
-  const [ isVerified, setIsVerified ] = useState(false)
+  const [ isComplete, setIsVerified ] = useState(false)
 
   const fetchUser = useCallback(async () => {
     //Buscar usuário com token auth0id
     const data = await fetch(`/api/users/${user.sub}`);
     const userInfo = await data.json();
     userInfo && setUserData(userInfo);
-    userInfo.verified && setIsVerified(userInfo.verified);
+    if(userInfo?.state == "INCOMPLETE"){
+      setIsVerified(false);
+    } else {
+      setIsVerified(true);
+    }
+
 
     if (!userInfo) {
       //Criar usuário caso não encontrado
@@ -80,7 +85,8 @@ export default function Dashboard() {
 
   return (
     <>
-      { user ? isVerified? (
+      { user ? isComplete? (
+        //Rodar interface normal (usuário logado e completo)
           <div>
             <p>{JSON.stringify(userData)}</p>
           </div>

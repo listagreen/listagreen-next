@@ -4,17 +4,18 @@ import prisma from '../../../../prisma/prisma_client';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     if(req.method === 'POST') {
-        const { auth0id, email, avatar } = JSON.parse(req.body)
-        const registry = await prisma.user.create({
+        //Update de dados que chegarem
+        const updateData = JSON.parse(req.body)
+        const update = await prisma.user.update({
+            where: {
+                id: updateData.id
+            },
             data: {
-              auth0id: auth0id,
-              email: email,
-              images: {
-                avatar: avatar
-              }
+              //dados do formulario (p/ completar cadastro)
+              
             },
           });
-        res.status(200).json(registry)
+        res.status(200).json(update)
 
     } else {
         res.status(200).json({ message: 'No data available' })
