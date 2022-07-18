@@ -85,17 +85,15 @@ export default function Dashboard() {
       surname: Yup.string()
         .max(20, "Must be 20 characters or less")
         .required("Required"),
-      main_name: Yup.string()
-        .max(15, "Must be 15 characters or less")
-        .required("Required"),
       username: Yup.string()
         .max(15, "Must be 15 characters or less")
         .required("Required"),
     }),
     onSubmit: (values) => {
       const { id } = userData;
-      console.log(id);
-      const { name, surname, main_name, username } = values;
+      //console.log(id);
+      const { name, surname, username } = values;
+      const main_name = name.split(" ")[0];
 
       api.post("/api/users/update", {
         id,
@@ -165,13 +163,6 @@ export default function Dashboard() {
                         label="Sobrenome"
                         onChange={formik.handleChange}
                         value={formik.values.surname}
-                      />
-                      <Input
-                        name="main_name"
-                        type="text"
-                        label="Nome principal"
-                        onChange={formik.handleChange}
-                        value={formik.values.main_name}
                       />
                       <Input
                         name="username"

@@ -17,6 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           surname,
           main_name,
         },
+        state: 'ACTIVE',
       },
     });
     res.status(200).json(update);
