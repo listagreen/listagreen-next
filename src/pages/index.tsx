@@ -67,9 +67,9 @@ export default function Initial() {
           fontWeight={600}
           fontSize={{ base: '1xl', sm: '1xl', md: '2xl' }}
           lineHeight={'110%'}
-          color={'#555555d1'}
+          color={'white'}
           >
-            SEU NOVO HUB DE
+            CONECTANDO
           </Heading>
           <Stack
           direction="column"
@@ -87,7 +87,7 @@ export default function Initial() {
           borderRadius="1rem 1rem 0 0"
           p={'0.7rem'}
           >
-            INFORMAÇÕES E
+            O MUNDO DA
           </Heading>
           <Heading
           fontWeight={700}
