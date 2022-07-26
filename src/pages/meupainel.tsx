@@ -49,8 +49,7 @@ export default function Dashboard() {
     const data = await fetch(`/api/users/${user.sub}`);
     const userInfo = await data.json();
     userInfo && setUserData(userInfo);
-    //console.log(userData)
-    console.log(userInfo);
+
     if (userInfo.state == "ACTIVE") {
       setIsComplete(true);
     }
@@ -69,8 +68,15 @@ export default function Dashboard() {
           }),
         });
         const registerInfo = await register.json();
-        registerInfo && setUserData(registerInfo);
-        registerInfo && setIsLoadingUser(false);   
+        if(registerInfo){
+          setIsLoadingUser(false);   
+          let firstUserData = {
+            userid: registerInfo.id,
+            email: registerInfo.email,
+            state: registerInfo.state,
+          }
+          setUserData(firstUserData);
+        }
       })();
     } else {
       setIsLoadingUser(false)
@@ -94,7 +100,6 @@ export default function Dashboard() {
       await api
         .get(`/api/users/check/${username}`)
         .then((response: AxiosResponse) => {
-          console.log(response.data);
           if (!response.data) {
             //Username disponível
             const button = document.querySelector("#submitButton");
@@ -196,7 +201,6 @@ export default function Dashboard() {
                         onSubmit={(values, actions) => {
                           setIsChecking(true);
                           const id = userData.userid;
-                          //console.log(id);
                           const { name, surname, username } = values;
                           const main_name = name.split(" ")[0];
 
