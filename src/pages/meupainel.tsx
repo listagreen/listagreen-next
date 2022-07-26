@@ -50,8 +50,8 @@ export default function Dashboard() {
     const userInfo = await data.json();
     userInfo && setUserData(userInfo);
     //console.log(userData)
-
-    if (userInfo?.state == "COMPLETE") {
+    console.log(userInfo);
+    if (userInfo.state == "ACTIVE") {
       setIsComplete(true);
     }
 
@@ -93,6 +93,7 @@ export default function Dashboard() {
       await api
         .get(`/api/users/check/${username}`)
         .then((response: AxiosResponse) => {
+          console.log(response.data);
           if (!response.data) {
             //Username disponível
             const button = document.querySelector("#submitButton");
@@ -193,19 +194,19 @@ export default function Dashboard() {
                         initialValues={{ name: "", surname: "", username: "" }}
                         onSubmit={(values, actions) => {
                           setIsChecking(true);
-                          const { id: userid } = userData;
+                          const id = userData.userid;
                           //console.log(id);
                           const { name, surname, username } = values;
                           const main_name = name.split(" ")[0];
 
                           api
-                            .post("/api/users/update", {
-                              id: userid,
-                              name,
-                              surname,
-                              main_name,
-                              username,
-                            })
+                              .post("/api/users/update", {
+                                id,
+                                name,
+                                surname,
+                                main_name,
+                                username,
+                              })
                             .then((response) => {
                               if (response.status == 200) {
                                 setTimeout(() => {
