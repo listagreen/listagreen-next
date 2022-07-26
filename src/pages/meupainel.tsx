@@ -49,14 +49,13 @@ export default function Dashboard() {
     const data = await fetch(`/api/users/${user.sub}`);
     const userInfo = await data.json();
     userInfo && setUserData(userInfo);
+    //console.log(userData)
 
-    if (userInfo?.state == "INCOMPLETE") {
-      setIsComplete(false);
-    } else {
+    if (userInfo?.state == "COMPLETE") {
       setIsComplete(true);
     }
 
-    if (!userInfo) {
+    if ( userInfo == null || userInfo.email != user.email ) {
       //Criar usuário caso não encontrado
       (async () => {
         const headers = new Headers();
@@ -70,10 +69,11 @@ export default function Dashboard() {
           }),
         });
         const registerInfo = await register.json();
-        //console.log(registerInfo);
+        registerInfo && setIsLoadingUser(false);   
       })();
-    } 
-    setIsLoadingUser(false);   
+    } else {
+      setIsLoadingUser(false)
+    }
   }, [user]);
 
   useEffect(() => {

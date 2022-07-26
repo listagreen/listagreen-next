@@ -10,15 +10,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           auth0id: token,
         },
       });
-    if (userdata) {
+    if (userdata != undefined) {
       resData = {
-        userid: userdata.id,
-        name: userdata.profile.name,
-        username: userdata.username,
-        email: userdata.email,
-        avatar: userdata.images.avatar,
-        state: userdata.state,
+        userid: userdata?.id,
+        name: userdata?.profile?.name,
+        avatar: userdata?.images?.avatar,      
+        username: userdata?.username,
+        email: userdata?.email,
+        state: userdata?.state,
       }
     }
     res.status(200).json(resData)
-}
+  }
