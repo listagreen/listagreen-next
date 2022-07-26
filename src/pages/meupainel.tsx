@@ -69,6 +69,7 @@ export default function Dashboard() {
           }),
         });
         const registerInfo = await register.json();
+        registerInfo && setUserData(registerInfo);
         registerInfo && setIsLoadingUser(false);   
       })();
     } else {

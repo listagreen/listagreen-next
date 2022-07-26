@@ -11,7 +11,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         username,
       },
     });
-
     if (usernameAlreadyExists) {
       res.status(403).json({ message: "Username already exists" })
     } else {
