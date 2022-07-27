@@ -18,6 +18,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         username: userdata?.username,
         email: userdata?.email,
         state: userdata?.state,
+        permissions: userdata?.permissions,
       }
     }
     res.status(200).json(resData)

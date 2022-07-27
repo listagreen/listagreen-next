@@ -25,6 +25,8 @@ import {
   Stack,
   Center,
   Divider,
+  Grid,
+  GridItem,
 } from '@chakra-ui/react';
 import {
   FiClipboard,
@@ -43,31 +45,28 @@ import {
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { useRouter } from 'next/router';
+import { AdminFunctions } from '../panels/ui-functions';
 
-interface MainLinkItemProps {
+interface LinkItemProps {
   name: string;
   href: string;
   icon: IconType;
 }
-const MainLinkItems: Array<MainLinkItemProps> = [
+const MainLinkItems: Array<LinkItemProps> = [
   { name: 'Listagreen', href: '/meupainel', icon: FiGrid },
   { name: 'Descobrir', href: '/descobrir', icon: FiCompass },
   { name: 'Conquistas', href: '/conquistas', icon: FiAward },
 ];
 
-interface LinkItemProps {
-  name: string;
-  icon: IconType;
-}
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Listas', icon: FiFileText },
-  { name: 'Posts', icon: FiClipboard },
-  { name: 'Recomendações', icon: FiStar },
-  { name: 'Green Points', icon: FiAward },
-  { name: 'Negócios', icon: FiShoppingBag },
-  { name: 'Aumentar alcance', icon: FiTrendingUp },
-  { name: 'Insights', icon: FiGrid },
-  { name: 'Torne-se um Patrono', icon: FiSmile },
+  { name: 'Listas', icon: FiFileText, href: '/listas' },
+  { name: 'Posts', icon: FiClipboard, href: '/posts' },
+  { name: 'Recomendações', icon: FiStar, href: '/recomendacoes'},
+  { name: 'Green Points', icon: FiAward, href: '/greenpoints' },
+  { name: 'Negócios', icon: FiShoppingBag, href: '/negocios'},
+  { name: 'Aumentar alcance', icon: FiTrendingUp, href: '/alcance' },
+  { name: 'Insights', icon: FiGrid, href: '/insights'},
+  { name: 'Torne-se um Patrono', icon: FiSmile, href: '/patrono' },
 ];
 
 export default function SidebarWithHeader({
@@ -79,32 +78,49 @@ export default function SidebarWithHeader({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {userData} = props;
   return (
-    <Box minH="100vh" bg="#F5F5F5">
-      <SidebarContent
-        onClose={() => onClose}
-        display={{ base: 'none', md: 'block' }}
-      />
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full">
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      
-      {/* mobilenav */}
-      <TopBarNav  onOpen={onOpen} {...userData}/>
-
-      {/* Content */}
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
-      </Box>
-    </Box>
+      <Grid 
+      templateAreas={
+      ` "sidebar topnav"
+        "sidebar main"
+        "sidebar footer"  `}
+      gridTemplateRows={'7rem 1fr 5rem'}
+      gridTemplateColumns={'11rem 1fr'}
+      h='auto'
+      gap='0'
+      >
+        <GridItem area={'sidebar'}>
+          {/* Sidebar */}
+          <SidebarContent
+            onClose={() => onClose}
+            display={{ base: 'none', md: 'block' }}
+          />
+          <Drawer
+            autoFocus={false}
+            isOpen={isOpen}
+            placement="left"
+            onClose={onClose}
+            returnFocusOnClose={false}
+            onOverlayClick={onClose}
+            size="full">
+            <DrawerContent>
+              <SidebarContent onClose={onClose} />
+            </DrawerContent>
+          </Drawer>
+        </GridItem>
+        <GridItem area={'topnav'}>
+          {/* Top Navigation */}
+          <TopBarNav  onOpen={onOpen} {...userData}/>
+        </GridItem>
+        <GridItem area={'main'}>
+          {/* Content */}
+          <Box ml={{ base: 0, md: "1rem" }} p="4">
+            {children}
+          </Box>
+        </GridItem>
+        <GridItem area={'footer'} borderTop="1px solid" borderColor="gray.200" display="flex" justifyContent={"center"}>
+            <Image src="/assets/ui/logo-green.svg" w="5rem" alt="Logo" />
+        </GridItem>
+      </Grid>
   );
 }
 
@@ -114,28 +130,29 @@ interface SidebarProps extends BoxProps {
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
-    <Box
+    <Flex
       boxShadow='xl'
       transition="2s ease"
       bg={useColorModeValue('white', 'gray.900')}
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
       w={{ base: 'full', md: "11rem" }}
-      pos="fixed"
-      h="full"
+      minH="100vh"
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="center">
-      <Image src='../../assets/ui/logo-darkgreen.svg' alt="logo" w={"sm"} m={"1rem"}/>
+      <Image src='../../assets/ui/logo-darkgreen.svg' alt="logo" m={"1rem"} width={{ base: "sm", md: "sm", sm: "7rem"}}/>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
-
+      
+      <Box display={{ base: 'block', md: 'block', sm:"none" }}>
         {MainLinkItems.map((link) => (
           <MainNavItem key={link.name} icon={link.icon} href={link.href}>
             {link.name}
           </MainNavItem>
         ))}
 
-      <Divider w="77%" m="1rem auto" borderColor="gray.300"/>
+        <Divider w="77%" m="1rem auto" borderColor="gray.300"/>
+      </Box>
 
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon}
@@ -146,7 +163,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           {link.name}
         </NavItem>
       ))}
-    </Box>
+    </Flex>
   );
 };
 
@@ -261,14 +278,26 @@ const TopBarNav = ({ onOpen, ...rest }: MobileProps) => {
 
       <HStack id="topbar_menu"
       spacing={{ base: '0', md: '6' }}>
+
+        {
+          (rest?.permissions == "ADMIN" || rest?.permissions == "SUPERADMIN") && 
+          <AdminFunctions />
+          
+        }
+
         <IconButton
+          background="gray.200"
+          borderRadius="full"
+          _hover={{background:"listagreen.basegreen", color:"white"}}
           size="lg"
           variant="ghost"
           aria-label="open menu"
           icon={<FiBell />}
         />
-        <Flex alignItems={'center'}>
+
+        <Flex id="topbar_user" alignItems={'center'}>
           <Menu>
+
             <MenuButton
               py={2}
               transition="all 0.3s"
@@ -297,6 +326,7 @@ const TopBarNav = ({ onOpen, ...rest }: MobileProps) => {
                 </Box>
               </HStack>
             </MenuButton>
+
             <MenuList
               bg={useColorModeValue('white', 'gray.900')}
               borderColor={useColorModeValue('gray.200', 'gray.700')}>
@@ -305,8 +335,11 @@ const TopBarNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuDivider />
               <MenuItem onClick={(e) => {e.preventDefault(); router.push("/api/auth/logout")}}>Sair</MenuItem>
             </MenuList>
+
           </Menu>
+
         </Flex>
+
       </HStack>
     </Flex>
   );
