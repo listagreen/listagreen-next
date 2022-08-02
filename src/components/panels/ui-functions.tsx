@@ -1,26 +1,26 @@
-import React, { ReactNode, useState } from "react";
 import {
+  Button,
+  Center,
   CircularProgress,
+  Divider,
+  Image,
   Img,
   Input,
+  Modal,
   ModalBody,
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Stack,
+  Text,
   Tooltip,
   VStack,
-  Text,
-  Image,
-  Stack,
-  Center,
-  Divider,
-  Button,
-  Modal,
 } from "@chakra-ui/react";
-import Link from "next/link";
-import { Field, Formik } from "formik";
 import { AxiosError, AxiosResponse } from "axios";
+import { Field, Formik } from "formik";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import useDebounce from "../../hooks/useDebounce";
 import { api } from "../../services/api";
 
@@ -50,8 +50,8 @@ export function AdminFunctions() {
   );
 }
 
-export function FirstRegistration({ ...props }: { props?: any;}) {
-  const {userData} = props;
+export function FirstRegistration({ ...props }: { props?: any }) {
+  const { userData } = props;
   const [isCheckingUsername, setIsChecking] = useState(false);
   const [lastCheck, setLastCheck] = useState("");
   const [isTaken, setIsTaken] = useState(false);
@@ -63,7 +63,7 @@ export function FirstRegistration({ ...props }: { props?: any;}) {
       setIsChecking(true);
       setLastCheck(username);
       setIsTaken(false);
-  
+
       await api
         .get(`/api/users/check/${username}`)
         .then((response: AxiosResponse) => {
@@ -154,6 +154,7 @@ export function FirstRegistration({ ...props }: { props?: any;}) {
                   <Stack direction={"row"} alignItems="center" mt={4}>
                     <Image
                       src="https://img.icons8.com/windows/32/07d0bd/username.png"
+                      alt=""
                       w={"2rem"}
                       h={"2rem"}
                     />
@@ -173,6 +174,7 @@ export function FirstRegistration({ ...props }: { props?: any;}) {
                   <Stack direction={"row"} alignItems="center" mt={4}>
                     <Image
                       src="https://img.icons8.com/windows/32/07d0bd/username.png"
+                      alt=""
                       w={"2rem"}
                       h={"2rem"}
                     />
@@ -201,6 +203,7 @@ export function FirstRegistration({ ...props }: { props?: any;}) {
                   <Stack direction={"row"} alignItems="center" mt={4}>
                     <Image
                       src="https://img.icons8.com/pastel-glyph/64/07d0bd/name.png"
+                      alt=""
                       w={"2rem"}
                       h={"2rem"}
                     />
@@ -224,15 +227,13 @@ export function FirstRegistration({ ...props }: { props?: any;}) {
                       )}
                     </Field>
                   </Stack>
-                  {
-                    isTaken && (
-                      <Center>
-                        <Text mt="1rem" color="red.300">
-                          O usuário já existe.
-                        </Text>
-                      </Center>
-                    )
-                  }
+                  {isTaken && (
+                    <Center>
+                      <Text mt="1rem" color="red.300">
+                        O usuário já existe.
+                      </Text>
+                    </Center>
+                  )}
                   <Center>
                     <Tooltip
                       label="Preencha as informações corretamente."

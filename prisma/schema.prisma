@@ -74,3 +74,35 @@ enum userState {
   INACTIVE
   BLOCKED
 }
+
+model CompanyData {
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  companyName    String         @unique @map("company_name")
+  members        Members[]
+  companyProfile CompanyProfile
+  reactions      Reactions?
+  rankPoints     Int?           @map("rank_points")
+
+  @@map("companies")
+}
+
+type Members {
+  users String[]
+}
+
+type CompanyProfile {
+  since       DateTime @default(now())
+  tags        String[]
+  pictures    String[]
+  category    String
+  info        String
+  contact     String[]
+  verified    Boolean  @default(false)
+  profilePic  String?  @map("profile_pic")
+  fieldOfWork String?  @map("field_of_work")
+}
+
+type Reactions {
+  directrecommendations String[]
+  listedrecommendations String[]
+}

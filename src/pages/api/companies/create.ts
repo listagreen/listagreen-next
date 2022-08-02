@@ -4,13 +4,17 @@ import prisma from "../../../../prisma/prisma_client";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
-    const { auth0id, email, avatar } = JSON.parse(req.body);
-    const registry = await prisma.user.create({
+    const { companyName, fieldOfWork, members, category, info, contact } =
+      JSON.parse(req.body);
+    const registry = await prisma.companyData.create({
       data: {
-        auth0id: auth0id,
-        email: email,
-        images: {
-          avatar: avatar,
+        companyName,
+        members,
+        companyProfile: {
+          category,
+          info,
+          contact,
+          fieldOfWork,
         },
       },
     });
