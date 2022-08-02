@@ -1,27 +1,9 @@
 import { useUser } from "@auth0/nextjs-auth0";
-import {
-  Button,
-  Center,
-  CircularProgress,
-  Divider,
-  Image,
-  Img,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Stack,
-  Text,
-  Tooltip,
-  useDisclosure,
-  VStack,
-} from "@chakra-ui/react";
+import { Center, CircularProgress, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
-import SidebarWithHeader from "../components/ui-blocks/dashboard";
+import { useCallback, useEffect, useState } from "react";
 import { FirstRegistration } from "../components/panels/ui-functions";
+import SidebarWithHeader from "../components/ui-blocks/dashboard";
 
 const toLogin = () => {
   const router = useRouter();
@@ -66,8 +48,7 @@ export default function Dashboard() {
           setUserData(firstUserData);
         }
       })();
-    } 
-  
+    }
   }, [user]);
 
   useEffect(() => {
@@ -77,8 +58,6 @@ export default function Dashboard() {
       fetchUser();
     }
   }, [user]);
-
- 
 
   if (isLoading)
     return (
@@ -106,10 +85,9 @@ export default function Dashboard() {
           {isComplete ? (
             //Rodar interface normal (usuário logado e completo)
             <Text>Conteúdo</Text>
-
           ) : (
             //Rodar interface de completar cadastro (mongoDB)
-            <FirstRegistration {...{ userData }}/>
+            <FirstRegistration {...{ userData }} />
           )}
         </SidebarWithHeader>
       ) : (
