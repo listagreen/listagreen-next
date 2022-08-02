@@ -31,19 +31,17 @@ export function AdminFunctions() {
         role="group"
         backgroundColor="white"
         color="gray.500"
-        size="lg"
+        size="sm"
+        mr={2}
         boxShadow="xs"
         _hover={{ backgroundColor: "listagreen.basegreen", color: "white" }}
       >
-        <Text>Registrar empresas</Text>
         <Text
           fontSize="sm"
-          ml="2"
           color="gray.300"
           _groupHover={{ color: "listagreen.glowgreen" }}
         >
-          {" "}
-          [modo admin]
+          [admin]
         </Text>
       </Button>
     </Link>

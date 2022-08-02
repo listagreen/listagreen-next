@@ -1,4 +1,3 @@
-import React, { ReactNode } from 'react';
 import {
   IconButton,
   Avatar,
@@ -27,6 +26,7 @@ import {
   Divider,
   Grid,
   GridItem,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import {
   FiClipboard,
@@ -61,11 +61,11 @@ const MainLinkItems: Array<LinkItemProps> = [
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Listas', icon: FiFileText, href: '/listas' },
   { name: 'Posts', icon: FiClipboard, href: '/posts' },
-  { name: 'Recomendações', icon: FiStar, href: '/recomendacoes'},
+  { name: 'Recomendações', icon: FiStar, href: '/recomendacoes' },
   { name: 'Green Points', icon: FiAward, href: '/greenpoints' },
-  { name: 'Negócios', icon: FiShoppingBag, href: '/negocios'},
+  { name: 'Negócios', icon: FiShoppingBag, href: '/negocios' },
   { name: 'Aumentar alcance', icon: FiTrendingUp, href: '/alcance' },
-  { name: 'Insights', icon: FiGrid, href: '/insights'},
+  { name: 'Insights', icon: FiGrid, href: '/insights' },
   { name: 'Torne-se um Patrono', icon: FiSmile, href: '/patrono' },
 ];
 
@@ -76,51 +76,53 @@ export default function SidebarWithHeader({
   props?: any;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {userData} = props;
+  const { userData } = props;
+  const [isMobile] = useMediaQuery("(max-width: 768px)")
   return (
-      <Grid 
+    <Grid
       templateAreas={
       ` "sidebar topnav"
         "sidebar main"
         "sidebar footer"  `}
       gridTemplateRows={'7rem 1fr 5rem'}
       gridTemplateColumns={'11rem 1fr'}
+      {...isMobile ? { gridTemplateColumns: "0rem auto", gridTemplateRows: "7rem 1fr 5rem" } : { gridTemplateColumns: "11rem 1fr", gridTemplateRows: "7rem 1fr 5rem" }}
       h='auto'
       gap='0'
-      >
-        <GridItem area={'sidebar'}>
-          {/* Sidebar */}
-          <SidebarContent
-            onClose={() => onClose}
-            display={{ base: 'none', md: 'block' }}
-          />
-          <Drawer
-            autoFocus={false}
-            isOpen={isOpen}
-            placement="left"
-            onClose={onClose}
-            returnFocusOnClose={false}
-            onOverlayClick={onClose}
-            size="full">
-            <DrawerContent>
-              <SidebarContent onClose={onClose} />
-            </DrawerContent>
-          </Drawer>
-        </GridItem>
-        <GridItem area={'topnav'}>
-          {/* Top Navigation */}
-          <TopBarNav  onOpen={onOpen} {...userData}/>
-        </GridItem>
-        <GridItem area={'main'}>
-          {/* Content */}
-          <Box ml={{ base: 0, md: "1rem" }} p="4">
-            {children}
-          </Box>
-        </GridItem>
-        <GridItem area={'footer'} borderTop="1px solid" borderColor="gray.200" display="flex" justifyContent={"center"}>
-            <Image src="/assets/ui/logo-green.svg" w="5rem" alt="Logo" />
-        </GridItem>
-      </Grid>
+    >
+      <GridItem area={'sidebar'}>
+        {/* Sidebar */}
+        <SidebarContent
+          onClose={() => onClose}
+          display={{ base: 'none', md: 'block' }}
+        />
+        <Drawer
+          autoFocus={false}
+          isOpen={isOpen}
+          placement="left"
+          onClose={onClose}
+          returnFocusOnClose={false}
+          onOverlayClick={onClose}
+          size="full">
+          <DrawerContent>
+            <SidebarContent onClose={onClose} />
+          </DrawerContent>
+        </Drawer>
+      </GridItem>
+      <GridItem area={'topnav'}>
+        {/* Top Navigation */}
+        <TopBarNav onOpen={onOpen} {...userData} />
+      </GridItem>
+      <GridItem area={'main'}>
+        {/* Content */}
+        <Box ml={{ base: 0, md: "1rem" }} p="4">
+          {children}
+        </Box>
+      </GridItem>
+      <GridItem area={'footer'} borderTop="1px solid" borderColor="gray.200" display="flex" justifyContent={"center"}>
+        <Image src="/assets/ui/logo-green.svg" w="5rem" alt="Logo" />
+      </GridItem>
+    </Grid>
   );
 }
 
@@ -140,26 +142,26 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       minH="100vh"
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="center">
-      <Image src='../../assets/ui/logo-darkgreen.svg' alt="logo" m={"1rem"} width={{ base: "sm", md: "sm", sm: "7rem"}}/>
+        <Image src='../../assets/ui/logo-darkgreen.svg' alt="logo" m={"1rem"} width={{ base: "sm", md: "sm", sm: "7rem" }} />
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
-      
-      <Box display={{ base: 'block', md: 'block', sm:"none" }}>
+
+      <Box display={{ base: 'block', md: 'block', sm: "none" }}>
         {MainLinkItems.map((link) => (
           <MainNavItem key={link.name} icon={link.icon} href={link.href}>
             {link.name}
           </MainNavItem>
         ))}
 
-        <Divider w="77%" m="1rem auto" borderColor="gray.300"/>
+        <Divider w="77%" m="1rem auto" borderColor="gray.300" />
       </Box>
 
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon}
-        _hover={{
-          background: "gray.100",
-          transition: "0.5s ease",
-        }}>
+          _hover={{
+            background: "gray.100",
+            transition: "0.5s ease",
+          }}>
           {link.name}
         </NavItem>
       ))}
@@ -174,28 +176,28 @@ interface NavItemProps extends FlexProps {
 const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
   return (
     <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
-          <VStack
-          spacing={1}
-          alignContent="center"
-          alignItems="center"
-          justifyContent="center"
-          textAlign="center"
-          p="4"
-          mx="4"
-          borderRadius="lg"
-          role="group"
-          cursor="pointer"
-          color="gray.500"
-          {...rest}>
+      <VStack
+        spacing={1}
+        alignContent="center"
+        alignItems="center"
+        justifyContent="center"
+        textAlign="center"
+        p="4"
+        mx="4"
+        borderRadius="lg"
+        role="group"
+        cursor="pointer"
+        color="gray.500"
+        {...rest}>
 
-            {icon && (
-              <Icon
-                fontSize="16"
-                as={icon}
-              />
-            )}
-          <Text fontSize={"sm"}>{children}</Text>
-          </VStack>
+        {icon && (
+          <Icon
+            fontSize="16"
+            as={icon}
+          />
+        )}
+        <Text fontSize={"sm"}>{children}</Text>
+      </VStack>
     </Link>
   );
 };
@@ -208,44 +210,44 @@ interface MainNavItemProps extends FlexProps {
 const MainNavItem = ({ icon, href, children, ...rest }: MainNavItemProps) => {
   return (
     <Link href={href} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
-          <VStack
-          spacing={1}
-          align="center"
-          p="4"
-          mx="4"
-          role="group"
-          borderRadius="lg"
-          cursor="pointer"
-          color="gray.500"
-          {...rest}>
+      <VStack
+        spacing={1}
+        align="center"
+        p="4"
+        mx="4"
+        role="group"
+        borderRadius="lg"
+        cursor="pointer"
+        color="gray.500"
+        {...rest}>
 
-            {icon && (
-              <Icon
-                fontSize="3.1rem"
-                padding="0.45rem"
-                borderRadius="1.5rem"
-                transition="0.35s ease"
-                _groupHover={{
-                  background: "listagreen.basegreen",
-                  color: "white",
-                  fontSize: "5rem",
-                  padding: "1.5rem",
-                  borderRadius: "2.1rem",
-                  transition: "0.35s ease",
-                }}
-                _groupActive={{
-                  background: "listagreen.basegreen",
-                  color: "white",
-                  fontSize: "5rem",
-                  padding: "1.5rem",
-                  borderRadius: "2.1rem",
-                  transition: "0.35s ease",
-                }}
-                as={icon}
-              />
-            )}
-          <Text fontSize={"sm"} fontWeight="500">{children}</Text>
-          </VStack>
+        {icon && (
+          <Icon
+            fontSize="3.1rem"
+            padding="0.45rem"
+            borderRadius="1.5rem"
+            transition="0.35s ease"
+            _groupHover={{
+              background: "listagreen.basegreen",
+              color: "white",
+              fontSize: "5rem",
+              padding: "1.5rem",
+              borderRadius: "2.1rem",
+              transition: "0.35s ease",
+            }}
+            _groupActive={{
+              background: "listagreen.basegreen",
+              color: "white",
+              fontSize: "5rem",
+              padding: "1.5rem",
+              borderRadius: "2.1rem",
+              transition: "0.35s ease",
+            }}
+            as={icon}
+          />
+        )}
+        <Text fontSize={"sm"} fontWeight="500">{children}</Text>
+      </VStack>
     </Link>
   );
 };
@@ -276,19 +278,18 @@ const TopBarNav = ({ onOpen, ...rest }: MobileProps) => {
 
       <Image display={{ base: 'flex', md: 'none' }} src='../../assets/ui/logo-darkgreen.svg' alt="logo" />
 
-      <HStack id="topbar_menu"
-      spacing={{ base: '0', md: '6' }}>
+      <HStack id="topbar_menu" spacing={{ base: '0', md: '6' }}>
 
         {
-          (rest?.permissions == "ADMIN" || rest?.permissions == "SUPERADMIN") && 
+          (rest?.permissions == "ADMIN" || rest?.permissions == "SUPERADMIN") &&
           <AdminFunctions />
-          
+
         }
 
         <IconButton
           background="gray.200"
           borderRadius="full"
-          _hover={{background:"listagreen.basegreen", color:"white"}}
+          _hover={{ background: "listagreen.basegreen", color: "white" }}
           size="lg"
           variant="ghost"
           aria-label="open menu"
@@ -315,13 +316,13 @@ const TopBarNav = ({ onOpen, ...rest }: MobileProps) => {
                     {rest.username}
                   </Text>
                 </VStack>
-               
+
                 <Avatar
                   size={'md'}
                   name={rest.name}
                   src={rest.avatar}
                 />
-                 <Box display={{ base: 'none', md: 'flex' }}>
+                <Box display={{ base: 'none', md: 'flex' }}>
                   <FiChevronDown />
                 </Box>
               </HStack>
@@ -330,10 +331,10 @@ const TopBarNav = ({ onOpen, ...rest }: MobileProps) => {
             <MenuList
               bg={useColorModeValue('white', 'gray.900')}
               borderColor={useColorModeValue('gray.200', 'gray.700')}>
-              <MenuItem>Minha conta</MenuItem>
+              <Link href="/minhaconta"><MenuItem>Minha conta</MenuItem></Link>
               <MenuItem>Preferências</MenuItem>
               <MenuDivider />
-              <MenuItem onClick={(e) => {e.preventDefault(); router.push("/api/auth/logout")}}>Sair</MenuItem>
+              <MenuItem onClick={(e) => { e.preventDefault(); router.push("/api/auth/logout") }}>Sair</MenuItem>
             </MenuList>
 
           </Menu>

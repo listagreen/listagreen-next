@@ -14,6 +14,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       resData = {
         userid: userdata?.id,
         name: userdata?.profile?.name,
+        surname: userdata?.profile?.surname,
+        since: userdata?.createdAt,
         avatar: userdata?.images?.avatar,      
         username: userdata?.username,
         email: userdata?.email,
